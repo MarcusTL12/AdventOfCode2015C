@@ -12,7 +12,7 @@ add_executable(
     src/day1.c
     src/day2.c
     src/day3.c
-    # src/day4.c
+    src/day4.c
     # src/day5.c
     # src/day6.c
     # src/day7.c
@@ -36,7 +36,7 @@ add_executable(
     # src/day25.c
 )
 
-target_link_libraries(aoc aoc_util pthread pcre2-8)
+target_link_libraries(aoc aoc_util pthread pcre2-8 crypto)
 
 set(CMAKE_C_FLAGS_RELEASE "-O3")
 
