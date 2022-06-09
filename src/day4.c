@@ -9,6 +9,8 @@
 #include "aoc_util/int_util.h"
 #include "aoc_util/md5_util.h"
 
+#define DO_THREADED
+
 const char *INPUT = "ckczppom";
 
 void d4p1() {
@@ -29,6 +31,28 @@ void d4p1() {
     printf("%zu\n", i);
 }
 
+#ifndef DO_THREADED
+
+void d4p2() {
+    size_t inplen = strlen(INPUT);
+
+    char strbuffer[32], hashbuf[16];
+    char *numbuffer = strbuffer + inplen;
+    memcpy(strbuffer, INPUT, inplen);
+
+    size_t i = 1;
+    while (true) {
+        size_t digits = sprintf(numbuffer, "%zu", i);
+        md5(hashbuf, strbuffer, inplen + digits);
+        if (!hashbuf[0] && !hashbuf[1] && !hashbuf[2] && !(hashbuf[3] & 0xf0)) break;
+        i++;
+    }
+
+    printf("%zu\n", i);
+}
+
+#else
+
 typedef struct {
     size_t start, off, ans;
     bool *done;
@@ -48,7 +72,7 @@ static void *threaded_loop(void *args_) {
     while (!*args->done) {
         size_t digits = sprintf(numbuffer, "%zu", i);
         md5(hashbuf, strbuffer, inplen + digits);
-        if (!hashbuf[0] && !hashbuf[1] && !hashbuf[2]) {
+        if (!hashbuf[0] && !hashbuf[1] && !hashbuf[2] && !(hashbuf[3] & 0xf0)) {
             found = true;
             *(args->done) = true;
             args->ans = i;
@@ -86,3 +110,5 @@ void d4p2() {
     free(ids);
     free(args);
 }
+
+#endif
