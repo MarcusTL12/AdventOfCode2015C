@@ -44,7 +44,7 @@ void d4p2() {
     while (true) {
         size_t digits = sprintf(numbuffer, "%zu", i);
         md5(hashbuf, strbuffer, inplen + digits);
-        if (!hashbuf[0] && !hashbuf[1] && !hashbuf[2] && !(hashbuf[3] & 0xf0)) break;
+        if (!hashbuf[0] && !hashbuf[1] && !hashbuf[2]) break;
         i++;
     }
 
@@ -72,7 +72,7 @@ static void *threaded_loop(void *args_) {
     while (!*args->done) {
         size_t digits = sprintf(numbuffer, "%zu", i);
         md5(hashbuf, strbuffer, inplen + digits);
-        if (!hashbuf[0] && !hashbuf[1] && !hashbuf[2] && !(hashbuf[3] & 0xf0)) {
+        if (!hashbuf[0] && !hashbuf[1] && !hashbuf[2]) {
             found = true;
             *(args->done) = true;
             args->ans = i;
