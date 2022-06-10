@@ -13,7 +13,7 @@ add_executable(
     src/day2.c
     src/day3.c
     src/day4.c
-    # src/day5.c
+    src/day5.c
     # src/day6.c
     # src/day7.c
     # src/day8.c
